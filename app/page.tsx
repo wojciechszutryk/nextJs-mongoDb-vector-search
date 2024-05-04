@@ -1,18 +1,12 @@
 import clientPromise from "../lib/mongodb";
-import { GetServerSideProps } from "next";
-
-interface Product {
-  _id: string;
-  product_name: string;
-}
+import { Product } from "../types/product.interface";
 
 interface Props {
   products: Product[];
 }
 
-const Products: React.FC<Props> = ({ products }) => {
-  console.log("products in Products", products);
-
+const Products: React.FC<Props> = async () => {
+  const products = await getData();
   return (
     <div>
       <h1>Top 10 Products of All Time</h1>
@@ -32,7 +26,7 @@ const Products: React.FC<Props> = ({ products }) => {
 
 export default Products;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getData = async (): Promise<Product[]> => {
   try {
     const client = await clientPromise;
     const db = client.db("next-mongo-vector-search");
@@ -41,13 +35,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
       .find({})
       .limit(10)
       .toArray();
-    console.log("products in getServerSideProps", products);
 
-    return {
-      props: { products: JSON.parse(JSON.stringify(products)) },
-    };
+    return JSON.parse(JSON.stringify(products));
   } catch (e) {
     console.error(e);
-    return { props: { products: [] } };
+    return [];
   }
 };

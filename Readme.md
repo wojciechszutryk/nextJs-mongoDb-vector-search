@@ -42,3 +42,4 @@ npm run dev
 
 Your app should be up and running on [http://localhost:3000](http://localhost:3000)!
 ```
+![alt text](image.png)
