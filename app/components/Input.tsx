@@ -5,15 +5,17 @@ interface Props
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  label: string;
+  label?: string;
 }
 
 const TextInput = ({ name, label, ...rest }: Props) => {
   return (
     <div>
-      <label htmlFor={name} className="block">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={name} className="block">
+          {label}
+        </label>
+      )}
       <input
         type="text"
         name={name}
