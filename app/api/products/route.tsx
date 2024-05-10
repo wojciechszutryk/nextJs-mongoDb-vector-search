@@ -16,13 +16,13 @@ export async function GET(request: NextRequest) {
     const client = await clientPromise;
 
     if (!query) {
-      const db = client.db("next-mongo-vector-search");
-      const movies = await db
-        .collection("products")
+      const db = client.db(DB_NAME);
+      const products = await db
+        .collection(PRODUCTS_COLLECTION_NAME)
         .find({})
         .limit(10)
         .toArray();
-      return new NextResponse(JSON.stringify(movies));
+      return new NextResponse(JSON.stringify(products));
     }
 
     // Call OpenAI API to get the embeddings.
